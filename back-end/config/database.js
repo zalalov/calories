@@ -11,7 +11,7 @@ export default {
     },
     migrations: {
         tableName: 'migrations',
-        directory: process.cwd() + '/server/migrations',
+        directory: process.cwd() + '/migrations',
     },
     debug: true
 };

@@ -1,5 +1,5 @@
 require('@babel/register');
 
-const dbConfig = require('./server/config/database');
+const dbConfig = require('./config/database');
 
 module.exports = Object.assign({}, dbConfig.default);
