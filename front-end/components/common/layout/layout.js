@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 
 // Import custom components
-import Header from '../header/Header';
-import MiniDrawer from '../drawer/MiniDrawer';
-import Footer from '../footer/Footer';
+import PersistentDrawerLeft from '../drawer/drawer';
 
 const styles = theme => ({
     root: {
@@ -34,34 +32,24 @@ const styles = theme => ({
 });
 
 class MainLayout extends Component {
-
     constructor(props) {
         super(props);
-        this.state = {open: true};
     }
 
-    handleToggle = () => this.setState({open: !this.state.open});
-
     render() {
-        let {open} = this.state;
         const classes = this.props.classes;
 
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                    <Header navDrawerOpen={open} handleToggleDrawer={this.handleToggle}/>
-                    <MiniDrawer navDrawerOpen={open}/>
+                    <PersistentDrawerLeft/>
                     <main className={classes.content}>
                         {this.props.children}
                     </main>
                 </div>
-
-                <Footer/>
-
             </div>
         )
     }
-
 }
 
 MainLayout.propTypes = {

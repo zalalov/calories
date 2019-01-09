@@ -6,7 +6,7 @@ import {ConnectedRouter} from 'react-router-redux';
 import history from '../utils/history';
 
 // Import custom components
-import MainLayout from '../components/common/layout/MainLayout';
+import MainLayout from '../components/common/layout/layout';
 import NotFound from '../components/error/NotFound';
 import LoginForm from '../containers/auth/LoginContainer';
 import SignUpForm from '../containers/auth/SignUpContainer';
