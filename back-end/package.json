@@ -5,8 +5,12 @@
   "main": "app.js",
   "scripts": {
     "start": "babel-node app.js",
-    "babel-version": "babel --version",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "knex migrate:latest",
+    "migrate:make": "knex migrate:make",
+    "migrate:rollback": "knex migrate:rollback",
+    "clean": "rimraf node_modules",
+    "lint": "eslint .; exit 0"
   },
   "author": "",
   "license": "ISC",
@@ -32,7 +36,6 @@
     "path": "^0.12.7",
     "pg": "^7.7.1",
     "serve-favicon": "~2.4.5",
-    "swagger-jsdoc": "^3.2.6",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.5.1"
   },

@@ -1,14 +1,8 @@
 import path from 'path';
 import app from './config/express';
 import routes from './routes/index.route';
-import swagger from './config/swagger';
 import * as errorHandler from './middlewares/errorHandler';
 import joiErrorHandler from './middlewares/joiErrorHandler';
-
-// Swagger API documentation
-app.get('/swagger.json', (req, res) => {
-   res.json(swagger);
-});
 
 // Router
 app.use('/api', routes);
