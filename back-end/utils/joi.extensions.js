@@ -7,6 +7,9 @@ exports.userExists = (joi) => {
         },
         rules: [{
             name: 'userExists',
+            params: {
+                userExists: joi.func().ref().required()
+            },
             validate(params, value, state, options) {
                 console.log();
 
