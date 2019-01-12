@@ -1,7 +1,4 @@
-import BaseJoi from 'joi';
-import {userExists} from './joi.extensions';
-
-const Joi = BaseJoi.extend(userExists);
+import Joi from 'joi';
 
 export default {
     storeUser: {
@@ -27,19 +24,17 @@ export default {
 
     storeMeal: {
         body: {
-            user_id: Joi.string().required(),
+            user_id: Joi.number().required(),
             text: Joi.string().required(),
-            calories: Joi.number().required(),
-            userId: Joi.number().userExists(Joi.ref('user_id')).required()
+            calories: Joi.number().required()
         }
     },
 
     updateMeal: {
         body: {
-            user_id: Joi.string().required(),
+            user_id: Joi.number().required(),
             text: Joi.string().required(),
-            calories: Joi.number().required(),
-            userId: Joi.number().userExists(Joi.ref('user_id')).required()
+            calories: Joi.number().required()
         },
         params: {
             userId: Joi.string().hex().required()
