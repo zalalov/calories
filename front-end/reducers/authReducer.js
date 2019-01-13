@@ -1,5 +1,10 @@
 // Import custom components
-import {LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_OUT_SUCCESS} from '../constants/actionType';
+import {
+    LOG_IN_SUCCESS,
+    LOG_IN_FAILURE,
+    LOG_OUT_SUCCESS,
+    GET_ROLE_SUCCESS
+} from '../constants/actionType';
 
 var initialState = {
     token: null,
@@ -35,6 +40,11 @@ export default function (state, action) {
                 isAuthenticated: false,
                 isLoading: true,
                 token: null,
+            });
+
+        case GET_ROLE_SUCCESS:
+            return Object.assign({}, state, {
+                role: action.data.role,
             });
 
         default:

@@ -7,6 +7,7 @@ import {blueGrey} from '@material-ui/core/colors';
 // Import custom components
 import store from './store/store';
 import {verifyToken} from './actions/tokenAction';
+import {getRole} from "./services/authService";
 import App from './containers/app/AppContainer';
 
 const mountNode = document.getElementById('root');
@@ -18,6 +19,7 @@ const theme = createMuiTheme({
 
 // Used to log in if token is valid
 store.dispatch(verifyToken());
+store.dispatch(getRole());
 
 const renderApp = (Component) => {
     ReactDOM.render(

@@ -4,7 +4,8 @@ import {
     LOG_IN_FAILURE,
     LOG_OUT_SUCCESS,
     SIGN_UP_SUCCESS,
-    SIGN_UP_FAILURE
+    SIGN_UP_FAILURE,
+    GET_ROLE_SUCCESS
 } from '../constants/actionType';
 
 export function loginSuccess(data) {
@@ -38,5 +39,12 @@ export function signupFailure(error) {
     return {
         type: SIGN_UP_FAILURE,
         error
+    }
+}
+
+export function getRoleSuccess(data) {
+    return {
+        type: GET_ROLE_SUCCESS,
+        data
     }
 }

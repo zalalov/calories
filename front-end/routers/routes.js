@@ -11,6 +11,7 @@ import SignUpForm from '../containers/auth/SignUpContainer';
 import UserList from '../containers/entities/UserListContainer';
 import UserForm from '../containers/entities/UserContainer';
 import AuthenticatedRoute from './AuthenticatedRoute';
+import AdminRoute from './AdminRoute';
 import Logout from "../containers/auth/LogoutContainer";
 
 const Router = () => (
@@ -31,8 +32,8 @@ const Router = () => (
 
 const UserRoutes = () => (
     <Switch>
-        <AuthenticatedRoute path="/users/:userId/edit" component={UserForm}/>
-        <AuthenticatedRoute path="/users" component={UserList}/>
+        <AdminRoute path="/users/:userId/edit" component={UserForm}/>
+        <AdminRoute path="/users" component={UserList}/>
     </Switch>
 );
 

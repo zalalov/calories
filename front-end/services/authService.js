@@ -1,11 +1,11 @@
 import axios from 'axios';
-
 // Import custom actionType
 import * as AuthAction from '../actions/authAction';
 import history from '../utils/history';
 
-import {BASE_URL, API_URL} from '../config/config';
-import {setToken, clearToken} from '../utils/storageUtil';
+import {API_URL} from '../config/config';
+import {clearToken, setToken} from '../utils/storageUtil';
+import {fetch} from "../utils/httpUtil";
 
 export function login({email, password}) {
     return function (dispatch) {
@@ -31,5 +31,16 @@ export function logout() {
         history.push('/');
         // window.location.href = BASE_URL;
         return false;
+    };
+}
+
+export function getRole() {
+    return function (dispatch) {
+        fetch(API_URL, 'auth/role').then((response) => {
+            dispatch(AuthAction.getRoleSuccess(response.data));
+        })
+            .catch((error) => {
+                dispatch(AuthAction.loginFailure(error.response.data));
+            });
     };
 }
