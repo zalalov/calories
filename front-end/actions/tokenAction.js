@@ -5,7 +5,7 @@ export function verifyToken() {
     return (dispatch) => {
         const token = getToken();
         if (token) {
-            dispatch(AuthAction.loginSuccess(token));
+            dispatch(AuthAction.loginSuccess({token: token}));
         }
     };
 }

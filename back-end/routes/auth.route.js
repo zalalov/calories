@@ -8,4 +8,9 @@ router.route('/login')
         authCtrl.login(req, res);
     });
 
+router.route('/role')
+    .get((req, res) => {
+        authCtrl.getRole(req, res)
+    });
+
 export default router;

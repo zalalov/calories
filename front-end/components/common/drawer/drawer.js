@@ -1,7 +1,8 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,8 +17,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import PeopleIcon from '@material-ui/icons/People';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -84,20 +87,20 @@ class PersistentDrawerLeft extends React.Component {
     };
 
     handleDrawerOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
-        const { classes, theme } = this.props;
-        const { open } = this.state;
+        const {classes, theme} = this.props;
+        const {open} = this.state;
 
         return (
             <div className={classes.root}>
-                <CssBaseline />
+                <CssBaseline/>
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -111,10 +114,10 @@ class PersistentDrawerLeft extends React.Component {
                             onClick={this.handleDrawerOpen}
                             className={classNames(classes.menuButton, open && classes.hide)}
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap>
-                            Persistent drawer
+                            Calories Manager
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -129,26 +132,49 @@ class PersistentDrawerLeft extends React.Component {
                 >
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={this.handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                         </IconButton>
                     </div>
-                    <Divider />
+                    <Divider/>
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                        <Link to='/users'>
+                            <ListItem button key='Users'>
+                                <ListItemIcon>
+                                    <PeopleIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary='Users'/>
                             </ListItem>
-                        ))}
+                        </Link>
+                        <Link to='/meals'>
+                            <ListItem button key='Meals'>
+                                <ListItemIcon>
+                                    <FastfoodIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary='Meals'/>
+                            </ListItem>
+                        </Link>
                     </List>
-                    <Divider />
+                    <Divider/>
                     <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                        <Link to='/settings'>
+                            <ListItem button key='Settings'>
+                                <ListItemIcon>
+                                    <SettingsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary='Settings'/>
                             </ListItem>
-                        ))}
+                        </Link>
+                    </List>
+                    <Divider/>
+                    <List>
+                        <Link to='/logout'>
+                            <ListItem button key='Logout'>
+                                <ListItemIcon>
+                                    <ExitToAppIcon />
+                                </ListItemIcon>
+                                <ListItemText primary='Logout'/>
+                            </ListItem>
+                        </Link>
                     </List>
                 </Drawer>
             </div>
@@ -161,4 +187,4 @@ PersistentDrawerLeft.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);
+export default withStyles(styles, {withTheme: true})(PersistentDrawerLeft);

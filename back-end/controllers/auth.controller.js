@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import {User} from '../models/user.model';
 import logger from '../config/winston';
+import {getToken, getUser, verifyToken} from '../utils/auth';
 
 /**
  * Returns jwt token if valid email and password is provided
@@ -11,7 +12,7 @@ import logger from '../config/winston';
  * @param {object} res
  * @returns {*}
  */
-export function login(req, res) {
+exports.login = (req, res) => {
     const {email, password} = req.body;
     User.query({
         where: {email: email},
@@ -27,7 +28,8 @@ export function login(req, res) {
                 res.json({
                     success: true,
                     token,
-                    email:  user.get('email')
+                    role: user.get('role'),
+                    email: user.get('email')
                 });
             } else {
                 logger.log('error', 'Authentication failed. Invalid password.');
@@ -45,4 +47,28 @@ export function login(req, res) {
             });
         }
     });
-}
+};
+
+exports.getRole = (req, res) => {
+    const token = getToken(req);
+
+    if (token) {
+        verifyToken(token)
+            .then(decoded => getUser(decoded.id))
+            .then(user => {
+                if (!user) {
+                    res.status(HttpStatus.NOT_FOUND).json({error: 'No such user'});
+                } else {
+                    res.status(HttpStatus.OK).json({role: user.get('role')})
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
+            });
+    } else {
+        res.status(HttpStatus.FORBIDDEN).json({
+            error: 'No token provided'
+        });
+    }
+};

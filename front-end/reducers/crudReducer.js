@@ -9,9 +9,12 @@ import {
 
 
 let initialState = {
-    products: [],
+    users: {
+        data: [],
+        error: null
+    },
     selectedItem: {
-        product: {},
+        user: {},
     }
 };
 
@@ -35,8 +38,9 @@ export default function (state, action) {
             return newState;
 
         case ENTITY_FETCH:
-            newState[action.entity] = Object.assign({}, state, action.data);
-            return newState;
+            return Object.assign({}, state, {
+                [action.entity]: action.data
+            });
 
         case ENTITY_DELETE:
             const data = Object.assign({}, state);

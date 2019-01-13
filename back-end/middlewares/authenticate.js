@@ -1,43 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import {User} from '../models/user.model';
-
-const getToken = (req) => {
-    const authorizationHeader = req.headers['authorization'];
-
-    if (!authorizationHeader) {
-        return null;
-    }
-
-    return authorizationHeader.split(' ')[1];
-};
-
-const verifyToken = (token) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(decoded);
-            }
-        });
-    });
-};
-
-const getUser = (id) => {
-    return new Promise((resolve, reject) => {
-        User.query({
-            where: {id: id},
-            select: ['email', 'id']
-        }).fetch().then(user => {
-            if (!user) {
-                reject(Error('No such user.'));
-            } else {
-                resolve(user);
-            }
-        });
-    })
-};
+import {getToken, getUser, verifyToken} from '../utils/auth';
 
 exports.isAuthenticated = (req, res, next) => {
     const token = getToken(req);
