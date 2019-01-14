@@ -34,10 +34,10 @@ export function logout() {
     };
 }
 
-export function getRole() {
+export function getUserInfo() {
     return function (dispatch) {
-        fetch(API_URL, 'auth/role').then((response) => {
-            dispatch(AuthAction.getRoleSuccess(response.data));
+        fetch(API_URL, 'auth/user').then((response) => {
+            dispatch(AuthAction.getUserInfoSuccess(response.data));
         })
             .catch((error) => {
                 dispatch(AuthAction.loginFailure(error.response.data));

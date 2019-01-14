@@ -17,6 +17,8 @@ export function storeEntity(entityName, data) {
 }
 
 export function updateEntity(entityName, data, dataId) {
+    console.log(data);
+
     return update(API_URL, getPathParam(entityName.toLowerCase(), dataId), data);
 }
 

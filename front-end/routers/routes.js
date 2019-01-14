@@ -1,6 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 // Import routing components
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'react-router-redux';
 import history from '../utils/history';
 // Import custom components
@@ -10,19 +11,30 @@ import LoginForm from '../containers/auth/LoginContainer';
 import SignUpForm from '../containers/auth/SignUpContainer';
 import UserList from '../containers/entities/UserListContainer';
 import UserForm from '../containers/entities/UserContainer';
-import AuthenticatedRoute from './AuthenticatedRoute';
 import AdminRoute from './AdminRoute';
+import AuthenticatedRoute from './AuthenticatedRoute';
 import Logout from "../containers/auth/LogoutContainer";
+import MealForm from "../containers/entities/MealContainer";
+import MealList from "../containers/entities/MealListContainer";
 
-const Router = () => (
+const Router = (props) => (
     <ConnectedRouter history={history}>
         <Switch>
             <Route exact path="/" component={LoginForm}/>
             <Route path="/signup" component={SignUpForm}/>
             <Route path="/logout" component={Logout}/>
 
-            <MainLayout>
-                <UserRoutes/>
+            <MainLayout auth={props.auth}>
+                <Switch>
+                    <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
+                    <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
+                    <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
+                    <AdminRoute path="/users/:userId/edit" component={UserForm}/>
+                    <AdminRoute path="/users" component={UserList}/>
+                    <AdminRoute path="/users/new" component={UserForm}/>
+
+                    <Redirect from="/meals" to={`/users/${props.auth.id}/meals`} />
+                </Switch>
             </MainLayout>
 
             <Route component={NotFound}/>
@@ -30,11 +42,8 @@ const Router = () => (
     </ConnectedRouter>
 );
 
-const UserRoutes = () => (
-    <Switch>
-        <AdminRoute path="/users/:userId/edit" component={UserForm}/>
-        <AdminRoute path="/users" component={UserList}/>
-    </Switch>
-);
+const mapStateToProps = state => ({
+    auth: state.auth
+});
 
-export default Router;
+export default connect(mapStateToProps, null)(Router);

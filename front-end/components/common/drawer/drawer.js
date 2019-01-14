@@ -95,7 +95,7 @@ class PersistentDrawerLeft extends React.Component {
     };
 
     render() {
-        const {classes, theme} = this.props;
+        const {classes, theme, auth} = this.props;
         const {open} = this.state;
 
         return (
@@ -145,7 +145,7 @@ class PersistentDrawerLeft extends React.Component {
                                 <ListItemText primary='Users'/>
                             </ListItem>
                         </Link>
-                        <Link to='/meals'>
+                        <Link to={`/users/${auth.id}/meals`}>
                             <ListItem button key='Meals'>
                                 <ListItemIcon>
                                     <FastfoodIcon/>
@@ -185,6 +185,7 @@ class PersistentDrawerLeft extends React.Component {
 PersistentDrawerLeft.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
 export default withStyles(styles, {withTheme: true})(PersistentDrawerLeft);

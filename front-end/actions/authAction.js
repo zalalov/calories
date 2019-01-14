@@ -5,7 +5,7 @@ import {
     LOG_OUT_SUCCESS,
     SIGN_UP_SUCCESS,
     SIGN_UP_FAILURE,
-    GET_ROLE_SUCCESS
+    GET_USER_INFO_SUCCESS
 } from '../constants/actionType';
 
 export function loginSuccess(data) {
@@ -42,9 +42,9 @@ export function signupFailure(error) {
     }
 }
 
-export function getRoleSuccess(data) {
+export function getUserInfoSuccess(data) {
     return {
-        type: GET_ROLE_SUCCESS,
+        type: GET_USER_INFO_SUCCESS,
         data
     }
 }

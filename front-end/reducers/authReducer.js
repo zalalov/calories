@@ -3,7 +3,7 @@ import {
     LOG_IN_SUCCESS,
     LOG_IN_FAILURE,
     LOG_OUT_SUCCESS,
-    GET_ROLE_SUCCESS
+    GET_USER_INFO_SUCCESS
 } from '../constants/actionType';
 
 var initialState = {
@@ -24,7 +24,8 @@ export default function (state, action) {
                 isAuthenticated: true,
                 isLoading: false,
                 token: action.data.token,
-                role: action.data.role
+                role: action.data.role,
+                id: action.data.id
             });
 
         case LOG_IN_FAILURE:
@@ -40,11 +41,13 @@ export default function (state, action) {
                 isAuthenticated: false,
                 isLoading: true,
                 token: null,
+                errorMessage: null
             });
 
-        case GET_ROLE_SUCCESS:
+        case GET_USER_INFO_SUCCESS:
             return Object.assign({}, state, {
                 role: action.data.role,
+                id: action.data.id
             });
 
         default:

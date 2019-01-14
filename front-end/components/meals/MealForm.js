@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Field, reduxForm, change} from 'redux-form'
+import {change, Field, reduxForm} from 'redux-form'
 import {withStyles} from '@material-ui/core/styles';
 import {Card, CardContent, CardHeader} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import renderText from "../common/form/renderText";
 // Import custom components
-import renderText from '../common/form/renderText';
 
 const styles = theme => ({
     root: {
@@ -28,57 +29,53 @@ const styles = theme => ({
     }
 });
 
-class UserForm extends Component {
+class MealForm extends Component {
     componentDidMount() {
-        const {user} = this.props;
+        const {meal} = this.props;
 
-        if (user) {
-            this.props.dispatch(change('UserForm', 'first_name', user.first_name));
-            this.props.dispatch(change('UserForm', 'last_name', user.last_name));
-            this.props.dispatch(change('UserForm', 'email', user.email));
+        console.log(meal.eaten_at);
+
+        if (meal) {
+            this.props.dispatch(change('MealForm', 'text', meal.text));
+            this.props.dispatch(change('MealForm', 'calories', meal.calories));
+            this.props.dispatch(change('MealForm', 'eaten_at', meal.eaten_at));
         }
     }
 
     render() {
-        const {handleSubmit, onSubmit, classes, user, onCancel} = this.props;
+        const {handleSubmit, onSubmit, classes, meal, onCancel} = this.props;
 
         return (
             <div className={classes.root}>
                 <Card className={classes.card}>
                     <CardHeader
                         className={classes.cardHeader}
-                        title={user ? 'Update User' : 'Create User'}
+                        title={meal ? 'Update Meal' : 'Create Meal'}
                     />
                     <CardContent>
                         <form method="post" onSubmit={handleSubmit(onSubmit)}>
                             <Field
                                 type="text"
-                                name="first_name"
-                                label="First Name"
+                                name="text"
+                                label="Text"
                                 component={renderText}
                             />
                             <br/>
                             <Field
                                 type="text"
-                                name="last_name"
-                                label="Last Name"
+                                name="calories"
                                 component={renderText}
+                                label="Calories"
                             />
                             <br/>
                             <Field
-                                type="text"
-                                name="email"
-                                label="Email"
+                                type="datetime"
+                                name="eaten_at"
+                                label="Eaten At"
                                 component={renderText}
                             />
                             <br/>
-                            <Field
-                                type="password"
-                                name="password"
-                                label="Password (leave empty to stay the same)"
-                                component={renderText}
-                            />
-                            <br/>
+
                             <div className={classes.btnDiv}>
                                 <Button className={classes.btn}
                                         type="submit"
@@ -94,10 +91,9 @@ class UserForm extends Component {
                             </div>
                         </form>
                     </CardContent>
-
                 </Card>
             </div>
-        )
+        );
     }
 }
 
@@ -105,9 +101,9 @@ const validateSignUp = values => {
     const errors = {};
 
     const requiredFields = [
-        'first_name',
-        'last_name',
-        'email',
+        'text',
+        'calories',
+        'eaten_at',
     ];
     requiredFields.forEach(field => {
         if (!values[field]) {
@@ -115,20 +111,16 @@ const validateSignUp = values => {
         }
     });
 
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = '(Invalid email address.)';
-    }
-
     return errors
 };
 
-UserForm.propTypes = {
-    user: PropTypes.object.isRequired,
+MealForm.propTypes = {
+    meal: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
 export default reduxForm({
-    form: 'UserForm', // a unique identifier for this form
-    validate: validateSignUp // ←Callback function for client-side validation
-})(withStyles(styles)(UserForm))
+    form: 'MealForm', // a unique identifier for this form
+    validate: validateSignUp, // ←Callback function for client-side validation
+})(withStyles(styles)(MealForm))

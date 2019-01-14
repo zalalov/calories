@@ -13,8 +13,13 @@ let initialState = {
         data: [],
         error: null
     },
+    meals: {
+        data: [],
+        error: null
+    },
     selectedItem: {
         user: {},
+        meal: {},
     }
 };
 
@@ -28,14 +33,18 @@ export default function (state, action) {
     console.log('Crud Reducer.');
     console.log(action.type);
 
+    console.log(action);
+
     switch (action.type) {
         case ENTITY_CREATE:
-            newState[action.entity] = Object.assign({}, state, action.data);
-            return newState;
+            return Object.assign({}, state, {
+                [action.entity]: action.data
+            });
 
         case ENTITY_UPDATE:
-            newState[action.entity] = Object.assign({}, state, action.data);
-            return newState;
+            return Object.assign({}, state, {
+                [action.entity]: action.data
+            });
 
         case ENTITY_FETCH:
             return Object.assign({}, state, {
@@ -44,8 +53,10 @@ export default function (state, action) {
 
         case ENTITY_DELETE:
             const data = Object.assign({}, state);
-            newState[action.entity] = data.filter(data => data.id !== action.data.id);
-            return newState;
+
+            return Object.assign({}, state, {
+                [action.entity]: data.filter(data => data.id !== action.data.id)
+            });
 
         case SELECT_ENTITY_ITEM:
             newState.selectedItem[action.entity] = Object.assign({}, state, action.data);

@@ -29,6 +29,7 @@ exports.login = (req, res) => {
                     success: true,
                     token,
                     role: user.get('role'),
+                    id: user.get('id'),
                     email: user.get('email')
                 });
             } else {
@@ -47,26 +48,4 @@ exports.login = (req, res) => {
             });
         }
     });
-};
-
-exports.getRole = (req, res) => {
-    const token = getToken(req);
-
-    if (token) {
-        verifyToken(token)
-            .then(decoded => getUser(decoded.id))
-            .then(user => {
-                if (!user) {
-                    res.status(HttpStatus.NOT_FOUND).json({error: 'No such user'});
-                } else {
-                    res.status(HttpStatus.OK).json({role: user.get('role')});
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(HttpStatus.OK).json({});
-            });
-    } else {
-        res.status(HttpStatus.OK).json({});
-    }
 };

@@ -1,6 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import jwt from 'jsonwebtoken';
-import {User} from '../models/user.model';
+import {User, ROLE_ADMIN, ROLE_MANAGER} from '../models/user.model';
 import {getToken, getUser, verifyToken} from '../utils/auth';
 
 exports.isAuthenticated = (req, res, next) => {
@@ -49,5 +48,15 @@ exports.isManager = (req, res, next) => {
         next();
     } else {
         res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
+    }
+};
+
+exports.isOwner = (req, res, next) => {
+    const userId = parseInt(req.params.userId);
+
+    if (![ROLE_ADMIN, ROLE_MANAGER].includes(req.currentUser.get('role')) && req.currentUser.get('id') !== userId) {
+        res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
+    } else {
+        next();
     }
 };

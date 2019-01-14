@@ -90,7 +90,8 @@ export function update(req, res) {
         .then(user => user.save({
                 first_name: req.body.first_name || user.get('first_name'),
                 last_name: req.body.last_name || user.get('last_name'),
-                email: req.body.email || user.get('email')
+                email: req.body.email || user.get('email'),
+                password: req.body.password ? bcrypt.hashSync(req.body.password, 10) : user.get('password')
             })
                 .then(() => res.json({
                         error: false,

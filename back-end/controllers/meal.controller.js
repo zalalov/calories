@@ -2,14 +2,22 @@ import HttpStatus from 'http-status-codes';
 import Meal from '../models/meal.model';
 
 /**
- * Find all the meals
+ * Find all user's meals
  *
  * @param {object} req
  * @param {object} res
  * @returns {*}
  */
-export function findAll(req, res) {
-    Meal.forge()
+export function findByUser(req, res) {
+    let {userId} = req.params;
+
+    if (!userId) {
+        userId = req.currentUser.get('id');
+    }
+
+    console.log(userId);
+
+    Meal.where({user_id: userId})
         .fetchAll()
         .then(meal => res.json({
                 error: false,

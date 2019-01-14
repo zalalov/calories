@@ -5,10 +5,10 @@ import * as crudAction from '../../actions/crudAction';
 import history from '../../utils/history';
 
 // Import custom components
-import UserForm from '../../components/users/UserForm';
-import {USERS} from "../../constants/entity";
+import MealForm from '../../components/meals/MealForm';
+import {MEALS} from "../../constants/entity";
 
-class UserContainer extends Component {
+class MealContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +16,7 @@ class UserContainer extends Component {
     }
 
     submitForm(formProps) {
-        this.props.actions.submitForm(USERS, formProps, this.props.match.params.userId);
+        this.props.actions.submitForm(MEALS, formProps, this.props.match.params.mealId);
     }
 
     cancelForm() {
@@ -24,12 +24,12 @@ class UserContainer extends Component {
     }
 
     render() {
-        let user = this.props.users.find(user => {
-            return user.id === parseInt(this.props.match.params.userId)
+        let meal = this.props.meals.find(meal => {
+            return meal.id === parseInt(this.props.match.params.mealId)
         });
 
         return (
-            <UserForm user={user} onSubmit={this.submitForm} onCancel={this.cancelForm}/>
+            <MealForm meal={meal} onSubmit={this.submitForm} onCancel={this.cancelForm}/>
         )
     }
 }
@@ -38,7 +38,7 @@ class UserContainer extends Component {
  * Map the state to props.
  */
 const mapStateToProps = state => ({
-    users: state.entities.users.data
+    meals: state.entities.meals.data
 });
 
 /**
@@ -48,4 +48,4 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(Object.assign({}, crudAction), dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(MealContainer)

@@ -39,10 +39,12 @@ class MainLayout extends Component {
     render() {
         const classes = this.props.classes;
 
+        console.log(this.props.children);
+
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                    <PersistentDrawerLeft/>
+                    <PersistentDrawerLeft auth={this.props.auth}/>
                     <main className={classes.content}>
                         {this.props.children}
                     </main>
@@ -54,7 +56,8 @@ class MainLayout extends Component {
 
 MainLayout.propTypes = {
     classes: PropTypes.object.isRequired,
-    children: PropTypes.element
+    // children: PropTypes.element,
+    auth: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MainLayout)

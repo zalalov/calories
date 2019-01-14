@@ -11,7 +11,7 @@ router.route('/')
         mealCtrl.store(req, res);
     })
     .get((req, res) => {
-        mealCtrl.findAll(req, res);
+        mealCtrl.findByUser(req, res);
     });
 
 
@@ -19,10 +19,10 @@ router.route('/:id')
     .get((req, res) => {
         mealCtrl.findById(req, res);
     })
-    .put(isAuthenticated, (req, res) => {
+    .put((req, res) => {
         mealCtrl.update(req, res);
     })
-    .delete([isAuthenticated, isAdmin], (req, res) => {
+    .delete(isAdmin, (req, res) => {
         mealCtrl.destroy(req, res);
     });
 
