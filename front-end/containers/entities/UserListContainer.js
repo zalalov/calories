@@ -10,6 +10,8 @@ import FloatingAddButton from '../../components/common/button/FloatingAddButton'
 class UserContainer extends Component {
     constructor(props) {
         super(props);
+
+        this.onDelete = this.onDelete.bind(this);
     }
 
     componentWillMount() {

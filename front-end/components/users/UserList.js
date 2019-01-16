@@ -42,7 +42,7 @@ function UserList(props) {
                                 </Link>
 
                                 <IconButton aria-label="Delete">
-                                    <DeleteIcon onClick={() => onDelete}/>
+                                    <DeleteIcon onClick={() => onDelete(user.id)}/>
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
