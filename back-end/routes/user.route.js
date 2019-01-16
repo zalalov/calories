@@ -19,10 +19,10 @@ router.route('/:id')
     .get(isAuthenticated, (req, res) => {
         userCtrl.findById(req, res);
     })
-    .put(isAdmin, (req, res) => {
+    .put(isAuthenticated, isAdmin, (req, res) => {
         userCtrl.update(req, res);
     })
-    .delete(isAdmin, (req, res) => {
+    .delete(isAuthenticated, isAdmin, (req, res) => {
         userCtrl.destroy(req, res);
     });
 

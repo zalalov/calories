@@ -9,7 +9,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
-import history from '../../utils/history';
+import EditIcon from '@material-ui/icons/Edit';
 
 const styles = theme => ({
     root: {
@@ -26,15 +26,23 @@ function UserList(props) {
                 {props.users.map(user => {
                     return (
                         <ListItem key={`user_${user.id}`} button>
-                            <Link to={`/users/${user.id}/edit`}>
-                                <ListItemText primary={user.email}/>
-                            </Link>
+                            <ListItemText primary={user.email}/>
+
                             <ListItemSecondaryAction>
+                                <Link to={`/users/${user.id}/edit`}>
+                                    <IconButton aria-label="Edit">
+                                        <EditIcon />
+                                    </IconButton>
+                                </Link>
+
+                                <Link to={`/users/${user.id}/meals`}>
+                                    <IconButton aria-label="Meals">
+                                        <FastfoodIcon />
+                                    </IconButton>
+                                </Link>
+
                                 <IconButton aria-label="Delete">
-                                    <FastfoodIcon onClick={() => history.push(`/users/${user.id}/meals`)}/>
-                                </IconButton>
-                                <IconButton aria-label="Delete">
-                                    <DeleteIcon onClick={onDelete}/>
+                                    <DeleteIcon onClick={() => onDelete}/>
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>

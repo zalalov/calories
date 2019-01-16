@@ -21,6 +21,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {ROLE_ADMIN} from "../../../constants/roles";
 
 const drawerWidth = 240;
 
@@ -137,14 +138,16 @@ class PersistentDrawerLeft extends React.Component {
                     </div>
                     <Divider/>
                     <List>
-                        <Link to='/users'>
-                            <ListItem button key='Users'>
-                                <ListItemIcon>
-                                    <PeopleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary='Users'/>
-                            </ListItem>
-                        </Link>
+                        {auth.role === ROLE_ADMIN && (
+                            <Link to='/users'>
+                                <ListItem button key='Users'>
+                                    <ListItemIcon>
+                                        <PeopleIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary='Users'/>
+                                </ListItem>
+                            </Link>
+                        )}
                         <Link to={`/users/${auth.id}/meals`}>
                             <ListItem button key='Meals'>
                                 <ListItemIcon>

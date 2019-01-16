@@ -32,7 +32,7 @@ exports.isAdmin = (req, res, next) => {
         next(Error('Unknown user.'));
     }
 
-    if (req.currentUser.role === User.ROLE_ADMIN) {
+    if (req.currentUser.get('role') === ROLE_ADMIN) {
         next();
     } else {
         res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
@@ -44,7 +44,7 @@ exports.isManager = (req, res, next) => {
         next(Error('Unknown user.'));
     }
 
-    if (req.currentUser.role === User.ROLE_MANAGER) {
+    if (req.currentUser.get('role') === ROLE_MANAGER) {
         next();
     } else {
         res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});

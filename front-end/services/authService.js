@@ -33,14 +33,3 @@ export function logout() {
         return false;
     };
 }
-
-export function getUserInfo() {
-    return function (dispatch) {
-        fetch(API_URL, 'auth/user').then((response) => {
-            dispatch(AuthAction.getUserInfoSuccess(response.data));
-        })
-            .catch((error) => {
-                dispatch(AuthAction.loginFailure(error.response.data));
-            });
-    };
-}
