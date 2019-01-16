@@ -22,7 +22,7 @@ router.route('/:id')
     .put((req, res) => {
         mealCtrl.update(req, res);
     })
-    .delete(isAdmin, (req, res) => {
+    .delete((req, res) => {
         mealCtrl.destroy(req, res);
     });
 

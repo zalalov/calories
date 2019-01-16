@@ -19,7 +19,7 @@ router.route('/:id')
     .get(isAuthenticated, (req, res) => {
         userCtrl.findById(req, res);
     })
-    .put(isAuthenticated, isAdmin, (req, res) => {
+    .put([validate(schema.updateUser), isAuthenticated, isAdmin], (req, res) => {
         userCtrl.update(req, res);
     })
     .delete(isAuthenticated, isAdmin, (req, res) => {
