@@ -2,6 +2,7 @@ import HttpStatus from 'http-status-codes';
 import Meal from '../models/meal.model';
 import dateformat from 'dateformat';
 import moment from 'moment';
+import Bookshelf from 'bookshelf';
 
 /**
  * Find all user's meals
@@ -21,7 +22,7 @@ export function findByUser(req, res) {
 
     const queryConditions = (userId, dateFrom, dateTo, timeFrom, timeTo) => {
         let conditions = [
-            'user_id = ' + userId
+            'meals.user_id = ' + userId
         ];
 
         let df = new Date(dateFrom);
@@ -30,30 +31,47 @@ export function findByUser(req, res) {
         let tt = moment(timeTo, 'HH:mm:ss');
 
         if (dateFrom) {
-            conditions.push(`eaten_at::date >= '${dateformat(df, 'yyyy-mm-dd')}'`);
+            conditions.push(`meals.eaten_at::date >= '${dateformat(df, 'yyyy-mm-dd')}'`);
         }
 
         if (dateTo) {
-            conditions.push(`eaten_at::date <= '${dateformat(dt, 'yyyy-mm-dd')}'`)
+            conditions.push(`meals.eaten_at::date <= '${dateformat(dt, 'yyyy-mm-dd')}'`)
         }
 
         if (timeFrom) {
-            conditions.push(`eaten_at::time >= '${tf.format('HH:mm:ss')}'`)
+            conditions.push(`meals.eaten_at::time >= '${tf.format('HH:mm:ss')}'`)
         }
 
         if (timeTo) {
-            conditions.push(`eaten_at::time <= '${tt.format('HH:mm:ss')}'`);
+            conditions.push(`meals.eaten_at::time <= '${tt.format('HH:mm:ss')}'`);
         }
 
         return conditions.join(' AND ');
     };
 
-    Meal.where(qb => qb.whereRaw(queryConditions(userId, date_from, date_to, time_from, time_to)))
+    let user_id = parseInt(userId);
+
+    /**
+     * I'm very-very-very sorry for that guys.
+     */
+    Meal.query(qb => {
+            qb.select('meals.*', 'm_joined.day_calories');
+            qb.joinRaw(
+                'LEFT JOIN (' +
+                    'SELECT ??::date, user_id, SUM(calories) as day_calories FROM meals WHERE user_id = '
+                    + user_id + ' GROUP BY ??::date, user_id) AS m_joined ' +
+                'ON ??::date = ??::date AND meals.user_id = m_joined.user_id',
+                ['eaten_at', 'eaten_at', 'meals.eaten_at', 'm_joined.eaten_at']
+            );
+        })
+        .where(qb => qb.whereRaw(queryConditions(userId, date_from, date_to, time_from, time_to)))
         .fetchAll()
-        .then(meal => res.json({
-                error: false,
-                data: meal.toJSON()
-            })
+        .then(meal => {
+            res.json({
+                    error: false,
+                    data: meal.toJSON()
+                })
+            }
         )
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 error: err
