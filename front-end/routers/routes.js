@@ -29,11 +29,11 @@ const Router = (props) => (
                 <Switch>
                     <AuthenticatedRoute path="/settings" component={SettingsForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
-                    <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
+                    <AdminRoute path="/users/:userId/meals/new" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
                     <AdminRoute path="/users/:userId/edit" component={UserForm}/>
                     <AdminRoute path="/users/new" component={UserForm}/>
-                    <AdminRoute path="/users" component={UserList}/>
+                    <AuthenticatedRoute path="/users" component={UserList}/>
 
                     <Redirect from="/meals" to={`/users/${props.auth.id}/meals`} />
                 </Switch>

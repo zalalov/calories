@@ -1,19 +1,17 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
-import {getToken} from '../utils/storageUtil'
 import {connect} from "react-redux";
+import {ROLE_MANAGER} from "../constants/roles";
 
-const isAuthenticated = () => {
-    return !!getToken();
-};
 
-const AuthenticatedRoute = (props) => {
+const AdminRoute = (props) => {
     let {component: Component, role, ...rest} = props;
+    const isAdmin = role === ROLE_MANAGER;
 
     return (
         <Route {...rest} render={props => (
-            isAuthenticated() ? (
+            isAdmin ? (
                 <Component {...props}/>
             ) : (
                 <Redirect to={{
@@ -29,7 +27,7 @@ const AuthenticatedRoute = (props) => {
  * Map the state to props.
  */
 const mapStateToProps = state => ({
-    role: state.auth,
+    role: state.auth.role,
 });
 
-export default connect(mapStateToProps, null)(AuthenticatedRoute)
+export default connect(mapStateToProps, null)(AdminRoute)

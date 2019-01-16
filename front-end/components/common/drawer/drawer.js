@@ -21,7 +21,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {ROLE_ADMIN} from "../../../constants/roles";
+import {ROLE_ADMIN, ROLE_MANAGER, ROLE_REGULAR} from "../../../constants/roles";
 
 const drawerWidth = 240;
 
@@ -138,7 +138,7 @@ class PersistentDrawerLeft extends React.Component {
                     </div>
                     <Divider/>
                     <List>
-                        {auth.role === ROLE_ADMIN && (
+                        {[ROLE_ADMIN, ROLE_MANAGER].includes(auth.role) && (
                             <Link to='/users'>
                                 <ListItem button key='Users'>
                                     <ListItemIcon>
@@ -148,32 +148,35 @@ class PersistentDrawerLeft extends React.Component {
                                 </ListItem>
                             </Link>
                         )}
-                        <Link to={`/users/${auth.id}/meals`}>
-                            <ListItem button key='Meals'>
-                                <ListItemIcon>
-                                    <FastfoodIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary='Meals'/>
-                            </ListItem>
-                        </Link>
+                        {[ROLE_ADMIN, ROLE_REGULAR].includes(auth.role) && (
+                            <Link to={`/users/${auth.id}/meals`}>
+                                <ListItem button key='Meals'>
+                                    <ListItemIcon>
+                                        <FastfoodIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary='Meals'/>
+                                </ListItem>
+                            </Link>
+                        )}
                     </List>
-                    <Divider/>
                     <List>
-                        <Link to='/settings'>
-                            <ListItem button key='Settings'>
-                                <ListItemIcon>
-                                    <SettingsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary='Settings'/>
-                            </ListItem>
-                        </Link>
+                        {[ROLE_ADMIN, ROLE_REGULAR].includes(auth.role) && (
+                            <Link to='/settings'>
+                                <ListItem button key='Settings'>
+                                    <ListItemIcon>
+                                        <SettingsIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary='Settings'/>
+                                </ListItem>
+                            </Link>
+                        )}
                     </List>
                     <Divider/>
                     <List>
                         <Link to='/logout'>
                             <ListItem button key='Logout'>
                                 <ListItemIcon>
-                                    <ExitToAppIcon />
+                                    <ExitToAppIcon/>
                                 </ListItemIcon>
                                 <ListItemText primary='Logout'/>
                             </ListItem>

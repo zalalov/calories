@@ -6,6 +6,7 @@ import history from '../utils/history';
 import {API_URL} from '../config/config';
 import {clearToken, setToken} from '../utils/storageUtil';
 import {fetch} from "../utils/httpUtil";
+import {ROLE_MANAGER} from "../constants/roles";
 
 export function login({email, password}) {
     return function (dispatch) {
@@ -14,7 +15,11 @@ export function login({email, password}) {
 
             setToken(response.data.token);
 
-            history.push('/meals');
+            if (response.data.role === ROLE_MANAGER) {
+                history.push('/users');
+            } else {
+                history.push('/meals');
+            }
         })
             .catch((error) => {
                 dispatch(AuthAction.loginFailure(error.response.data));

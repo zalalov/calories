@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import EditIcon from '@material-ui/icons/Edit';
+import {ROLE_MANAGER} from "../../constants/roles";
 
 const styles = theme => ({
     root: {
@@ -35,16 +36,18 @@ function UserList(props) {
                                     </IconButton>
                                 </Link>
 
-                                <Link to={`/users/${user.id}/meals`}>
-                                    <IconButton aria-label="Meals">
-                                        <FastfoodIcon/>
-                                    </IconButton>
-                                </Link>
+                                {auth.role !== ROLE_MANAGER && (
+                                    <Link to={`/users/${user.id}/meals`}>
+                                        <IconButton aria-label="Meals">
+                                            <FastfoodIcon/>
+                                        </IconButton>
+                                    </Link>
+                                )}
 
                                 {auth.id !== user.id &&
-                                    <IconButton aria-label="Delete">
-                                        <DeleteIcon onClick={() => onDelete(user.id)}/>
-                                    </IconButton>
+                                <IconButton aria-label="Delete">
+                                    <DeleteIcon onClick={() => onDelete(user.id)}/>
+                                </IconButton>
                                 }
                             </ListItemSecondaryAction>
                         </ListItem>
