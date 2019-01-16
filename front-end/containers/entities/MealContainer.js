@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as crudAction from '../../actions/crudAction';
+import * as mealAction from '../../actions/mealAction';
 import history from '../../utils/history';
 
 // Import custom components
@@ -16,7 +16,13 @@ class MealContainer extends Component {
     }
 
     submitForm(formProps) {
-        this.props.actions.submitForm(MEALS, formProps, this.props.match.params.mealId);
+        const {userId, mealId} = this.props.match.params;
+
+        if (mealId) {
+            this.props.actions.submitForm(formProps, userId, mealId);
+        } else {
+            this.props.actions.submitForm(formProps, userId);
+        }
     }
 
     cancelForm() {
@@ -24,9 +30,9 @@ class MealContainer extends Component {
     }
 
     render() {
-        let meal = this.props.meals.find(meal => {
-            return meal.id === parseInt(this.props.match.params.mealId)
-        });
+        const mealId = parseInt(this.props.match.params.mealId);
+
+        let meal = this.props.meals.find(meal => meal.id === mealId);
 
         return (
             <MealForm meal={meal} onSubmit={this.submitForm} onCancel={this.cancelForm}/>
@@ -45,7 +51,7 @@ const mapStateToProps = state => ({
  * Map the actions to props.
  */
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(Object.assign({}, crudAction), dispatch)
+    actions: bindActionCreators(Object.assign({}, mealAction), dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MealContainer)

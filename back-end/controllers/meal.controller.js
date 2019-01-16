@@ -9,13 +9,11 @@ import Meal from '../models/meal.model';
  * @returns {*}
  */
 export function findByUser(req, res) {
-    let {userId} = req.params;
+    let {userId} = req;
 
     if (!userId) {
         userId = req.currentUser.get('id');
     }
-
-    console.log(userId);
 
     Meal.where({user_id: userId})
         .fetchAll()
@@ -67,7 +65,8 @@ export function findById(req, res) {
  * @returns {*}
  */
 export function store(req, res) {
-    const {user_id, text, calories} = req.body;
+    const user_id = req.userId;
+    const {text, calories} = req.body;
 
     Meal.forge({
         user_id, text, calories

@@ -33,8 +33,6 @@ class MealForm extends Component {
     componentDidMount() {
         const {meal} = this.props;
 
-        console.log(meal.eaten_at);
-
         if (meal) {
             this.props.dispatch(change('MealForm', 'text', meal.text));
             this.props.dispatch(change('MealForm', 'calories', meal.calories));

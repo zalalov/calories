@@ -27,8 +27,8 @@ const Router = (props) => (
             <MainLayout auth={props.auth}>
                 <Switch>
                     <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
-                    <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
                     <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
+                    <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
                     <AdminRoute path="/users/:userId/edit" component={UserForm}/>
                     <AdminRoute path="/users/new" component={UserForm}/>
                     <AdminRoute path="/users" component={UserList}/>

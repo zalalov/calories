@@ -31,9 +31,9 @@ export function fetchByUserId(userId) {
     };
 }
 
-export function storeItem(data) {
+export function storeItem(data, userId) {
     return function (dispatch) {
-        return mealService.storeEntity(data).then((response) => {
+        return mealService.storeItem(userId, data).then((response) => {
             history.goBack();
         })
             .catch((error) => {
@@ -42,9 +42,9 @@ export function storeItem(data) {
     };
 }
 
-export function updateItem(data, id) {
+export function updateItem(data, userId, id) {
     return function (dispatch) {
-        return mealService.updateEntity(data, id).then((response) => {
+        return mealService.updateItem(userId, id, data).then((response) => {
             history.goBack();
         })
             .catch((error) => {
@@ -64,12 +64,12 @@ export function destroyItem(userId, id) {
     };
 }
 
-export function submitForm(data, id) {
+export function submitForm(data, userId, id) {
     return function (dispatch) {
         if (id) {
-            dispatch(updateItem(data, id));
+            dispatch(updateItem(data, userId, id));
         } else {
-            dispatch(storeItem(data));
+            dispatch(storeItem(data, userId));
         }
     }
 }

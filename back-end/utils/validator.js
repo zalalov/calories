@@ -24,17 +24,17 @@ export default {
 
     storeMeal: {
         body: {
-            user_id: Joi.number().required(),
             text: Joi.string().required(),
-            calories: Joi.number().required()
+            calories: Joi.number().required(),
+            eaten_at: Joi.date().required()
         }
     },
 
     updateMeal: {
         body: {
-            user_id: Joi.number().required(),
             text: Joi.string().required(),
-            calories: Joi.number().required()
+            calories: Joi.number().required(),
+            eaten_at: Joi.date().required()
         },
         params: {
             userId: Joi.string().hex().required()

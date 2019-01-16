@@ -6,6 +6,7 @@ import * as crudAction from '../../actions/crudAction';
 // Import custom components
 import UserList from '../../components/users/UserList';
 import FloatingAddButton from '../../components/common/button/FloatingAddButton';
+import {USERS} from "../../constants/entity";
 
 class UserContainer extends Component {
     constructor(props) {
@@ -15,11 +16,11 @@ class UserContainer extends Component {
     }
 
     componentWillMount() {
-        this.props.actions.fetchAll('users');
+        this.props.actions.fetchAll(USERS);
     }
 
     onDelete(id) {
-        this.props.actions.destroyItem('users', id);
+        this.props.actions.destroyItem(USERS, id);
     }
 
     render() {

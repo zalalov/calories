@@ -26,12 +26,15 @@ function MealList(props) {
                 {meals.map(meal => {
                     return (
                         <ListItem key={`meal_${meal.id}`} button>
-                            <Link to={`/users/${auth.id}/meals/${meal.id}/edit`}>
-                                <ListItemText primary={meal.text}/>
-                            </Link>
+                            <ListItemText primary={meal.text}/>
                             <ListItemSecondaryAction>
+                                <Link to={`/users/${auth.id}/meals/${meal.id}/edit`}>
+                                    <IconButton aria-label="Edit">
+                                        <EditIcon/>
+                                    </IconButton>
+                                </Link>
                                 <IconButton aria-label="Delete">
-                                    <DeleteIcon onClick={() => onDelete(auth.id, meal.id)} />
+                                    <DeleteIcon onClick={() => onDelete(auth.id, meal.id)}/>
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
