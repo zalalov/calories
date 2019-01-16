@@ -28,62 +28,29 @@ const styles = theme => ({
     }
 });
 
-class UserForm extends Component {
+class SettingsForm extends Component {
     componentDidMount() {
         const {user} = this.props;
 
-        if (user) {
-            this.props.dispatch(change('UserForm', 'first_name', user.first_name));
-            this.props.dispatch(change('UserForm', 'last_name', user.last_name));
-            this.props.dispatch(change('UserForm', 'email', user.email));
-            this.props.dispatch(change('UserForm', 'calories_goal', user.calories_goal));
-        }
+        this.props.dispatch(change('SettingsForm', 'calories_goal', user.calories_goal));
     }
 
     render() {
-        const {handleSubmit, onSubmit, classes, user, onCancel} = this.props;
+        const {handleSubmit, onSubmit, classes, onCancel} = this.props;
 
         return (
             <div className={classes.root}>
                 <Card className={classes.card}>
                     <CardHeader
                         className={classes.cardHeader}
-                        title={user ? 'Update User' : 'Create User'}
+                        title={'User Settings'}
                     />
                     <CardContent>
                         <form method="post" onSubmit={handleSubmit(onSubmit)}>
                             <Field
                                 type="text"
-                                name="first_name"
-                                label="First Name"
-                                component={renderText}
-                            />
-                            <br/>
-                            <Field
-                                type="text"
-                                name="last_name"
-                                label="Last Name"
-                                component={renderText}
-                            />
-                            <br/>
-                            <Field
-                                type="text"
-                                name="email"
-                                label="Email"
-                                component={renderText}
-                            />
-                            <br/>
-                            <Field
-                                type="text"
                                 name="calories_goal"
                                 label="Calories Goal"
-                                component={renderText}
-                            />
-                            <br/>
-                            <Field
-                                type="password"
-                                name="password"
-                                label="Password (leave empty to stay the same)"
                                 component={renderText}
                             />
                             <br/>
@@ -102,7 +69,6 @@ class UserForm extends Component {
                             </div>
                         </form>
                     </CardContent>
-
                 </Card>
             </div>
         )
@@ -112,32 +78,25 @@ class UserForm extends Component {
 const validateSignUp = values => {
     const errors = {};
 
-    const requiredFields = [
-        'first_name',
-        'last_name',
-        'email',
-        'calories_goal',
-    ];
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = '(The ' + field + ' field is required.)';
-        }
-    });
 
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = '(Invalid email address.)';
+    if (!values['calories_goal']) {
+        errors['calories_goal'] = '(The calories_goal field is required.)';
+    }
+
+    if (parseInt(values['calories_goal']) === values['calories_goal']) {
+        errors['calories_goal'] = 'Invalid calories_goal value';
     }
 
     return errors
 };
 
-UserForm.propTypes = {
+SettingsForm.propTypes = {
     user: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
 export default reduxForm({
-    form: 'UserForm', // a unique identifier for this form
+    form: 'SettingsForm', // a unique identifier for this form
     validate: validateSignUp // ←Callback function for client-side validation
-})(withStyles(styles)(UserForm))
+})(withStyles(styles)(SettingsForm))

@@ -91,7 +91,31 @@ export function update(req, res) {
                 first_name: req.body.first_name || user.get('first_name'),
                 last_name: req.body.last_name || user.get('last_name'),
                 email: req.body.email || user.get('email'),
-                password: req.body.password ? bcrypt.hashSync(req.body.password, 10) : user.get('password')
+                password: req.body.password ? bcrypt.hashSync(req.body.password, 10) : user.get('password'),
+                calories_goal: req.body.calories_goal || user.get('calories_goal'),
+            })
+                .then(() => res.json({
+                        error: false,
+                        data: user.toJSON()
+                    })
+                )
+                .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: true,
+                        data: {message: err.message}
+                    })
+                )
+        )
+        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                error: err
+            })
+        );
+}
+
+export function updateSettings(req, res) {
+    User.forge({id: req.currentUser.get('id')})
+        .fetch({require: true})
+        .then(user => user.save({
+                calories_goal: req.body.calories_goal || user.get('calories_goal'),
             })
                 .then(() => res.json({
                         error: false,

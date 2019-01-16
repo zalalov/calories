@@ -15,10 +15,17 @@ export default {
             first_name: Joi.string().required(),
             last_name: Joi.string().required(),
             email: Joi.string().email().required(),
-            password: Joi.string().min(6).required()
+            password: Joi.string().min(6).required(),
+            calories_goal: Joi.number().required()
         },
         params: {
             userId: Joi.string().hex().required()
+        }
+    },
+
+    updateSettings: {
+        body: {
+            calories_goal: Joi.number().required()
         }
     },
 

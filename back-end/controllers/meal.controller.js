@@ -1,5 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import Meal from '../models/meal.model';
+import dateformat from 'dateformat';
+import moment from 'moment';
 
 /**
  * Find all user's meals
@@ -15,7 +17,38 @@ export function findByUser(req, res) {
         userId = req.currentUser.get('id');
     }
 
-    Meal.where({user_id: userId})
+    const {date_from, date_to, time_from, time_to} = req.query;
+
+    const queryConditions = (userId, dateFrom, dateTo, timeFrom, timeTo) => {
+        let conditions = [
+            'user_id = ' + userId
+        ];
+
+        let df = new Date(dateFrom);
+        let dt = new Date(dateTo);
+        let tf = moment(timeFrom, 'HH:mm:ss');
+        let tt = moment(timeTo, 'HH:mm:ss');
+
+        if (dateFrom) {
+            conditions.push(`eaten_at::date >= '${dateformat(df, 'yyyy-mm-dd')}'`);
+        }
+
+        if (dateTo) {
+            conditions.push(`eaten_at::date <= '${dateformat(dt, 'yyyy-mm-dd')}'`)
+        }
+
+        if (timeFrom) {
+            conditions.push(`eaten_at::time >= '${tf.format('HH:mm:ss')}'`)
+        }
+
+        if (timeTo) {
+            conditions.push(`eaten_at::time <= '${tt.format('HH:mm:ss')}'`);
+        }
+
+        return conditions.join(' AND ');
+    };
+
+    Meal.where(qb => qb.whereRaw(queryConditions(userId, date_from, date_to, time_from, time_to)))
         .fetchAll()
         .then(meal => res.json({
                 error: false,

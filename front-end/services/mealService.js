@@ -3,8 +3,8 @@ import {API_URL} from "../config/config";
 import {getPathParam} from "../utils/serializeUtil";
 import {MEALS, USERS} from "../constants/entity";
 
-export function fetchByUserId(userId) {
-    return fetch(API_URL, getPathParam(USERS, userId, MEALS));
+export function fetchByUserId(userId, params) {
+    return fetch(API_URL, getPathParam(USERS, userId, MEALS), params);
 }
 
 export function destroyItem(userId, id) {

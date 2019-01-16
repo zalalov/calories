@@ -20,9 +20,9 @@ import * as httpService from '../services/httpService';
  */
 
 
-export function fetchByUserId(userId) {
+export function fetchByUserId(userId, params) {
     return function (dispatch) {
-        return mealService.fetchByUserId(userId).then((response) => {
+        return mealService.fetchByUserId(userId, params).then((response) => {
             dispatch(commonAction.fetch('meals', response.data));
         })
             .catch((error) => {

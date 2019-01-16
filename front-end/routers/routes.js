@@ -16,6 +16,7 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 import Logout from "../containers/auth/LogoutContainer";
 import MealForm from "../containers/entities/MealContainer";
 import MealList from "../containers/entities/MealListContainer";
+import SettingsForm from "../containers/entities/SettingsContainer";
 
 const Router = (props) => (
     <ConnectedRouter history={history}>
@@ -26,6 +27,7 @@ const Router = (props) => (
 
             <MainLayout auth={props.auth}>
                 <Switch>
+                    <AuthenticatedRoute path="/settings" component={SettingsForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>

@@ -9,6 +9,12 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+
+import FloatingAddButton from '../../components/common/button/FloatingAddButton';
+import DatePicker from '../../components/common/pickers/date';
+import TimePicker from '../../components/common/pickers/time';
 
 const styles = theme => ({
     root: {
@@ -18,10 +24,21 @@ const styles = theme => ({
 });
 
 function MealList(props) {
-    const {classes, meals, auth, onDelete} = props;
+    const {classes, meals, auth, onDelete, userId} = props;
+    const {dateFromChanged, dateToChanged, timeFromChanged, timeToChanged} = props;
+    const {dateFrom, dateTo, timeFrom, timeTo} = props;
 
     return (
         <div className={classes.root}>
+            <Grid container className={classes.grid} justify="space-around">
+                <DatePicker label="Date From" value={dateFrom} onChange={dateFromChanged}/>
+                <DatePicker label="Date To" value={dateTo} onChange={dateToChanged}/>
+                <TimePicker label="Time From" value={timeFrom} onChange={timeFromChanged}/>
+                <TimePicker label="Time To" value={timeTo} onChange={timeToChanged}/>
+            </Grid>
+
+            <Divider/>
+
             <List component="nav">
                 {meals.map(meal => {
                     return (
@@ -41,6 +58,8 @@ function MealList(props) {
                     )
                 })}
             </List>
+
+            <FloatingAddButton link={`/users/${userId}/meals/new`} />
         </div>
     );
 }

@@ -30,7 +30,8 @@ exports.login = (req, res) => {
                     token,
                     role: user.get('role'),
                     id: user.get('id'),
-                    email: user.get('email')
+                    email: user.get('email'),
+                    calories_goal: user.get('calories_goal')
                 });
             } else {
                 logger.log('error', 'Authentication failed. Invalid password.');

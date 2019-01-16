@@ -25,7 +25,8 @@ export default function (state, action) {
                 isLoading: false,
                 token: action.data.token,
                 role: action.data.role,
-                id: action.data.id
+                id: action.data.id,
+                calories_goal: action.data.calories_goal
             });
 
         case LOG_IN_FAILURE:

@@ -63,6 +63,17 @@ export function updateItem(entity, data, id) {
     };
 }
 
+export function updateSettings(entity, data, id) {
+    return function (dispatch) {
+        return httpService.updateEntity(entity, data, id).then((response) => {
+            history.goBack();
+        })
+            .catch((error) => {
+                dispatch(commonAction.failure(error));
+            });
+    };
+}
+
 export function destroyItem(entity, id, data) {
     return function (dispatch) {
         return httpService.destroyEntity(entity, id).then((response) => {

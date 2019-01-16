@@ -2,6 +2,7 @@ import express from 'express';
 import authRoutes from './auth.route';
 import userRoutes from './user.route';
 import mealRoutes from './meal.route';
+import settingsRoutes from './settings.route';
 import {isAuthenticated, isOwner} from '../middlewares/authenticate';
 import {parseUser} from '../middlewares/user';
 
@@ -15,5 +16,7 @@ router.use('/users', userRoutes);
 
 // mount meal routes at /users
 router.use('/users/:userId/meals', [isAuthenticated, isOwner, parseUser], mealRoutes);
+
+router.use('/settings', [isAuthenticated], settingsRoutes);
 
 export default router;
