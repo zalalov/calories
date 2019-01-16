@@ -11,6 +11,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+
 
 import FloatingAddButton from '../../components/common/button/FloatingAddButton';
 import DatePicker from '../../components/common/pickers/date';
@@ -41,9 +43,14 @@ function MealList(props) {
 
             <List component="nav">
                 {meals.map(meal => {
+                    const red= '#770000';
+                    const green = '#137f00';
+
+                    let color = meal.overload ? red : green;
+
                     return (
                         <ListItem key={`meal_${meal.id}`} button>
-                            <ListItemText primary={meal.text}/>
+                            <ListItemText primary={<Typography type="body2" style={{ color: color }}>{meal.text}</Typography>}/>
                             <ListItemSecondaryAction>
                                 <Link to={`/users/${auth.id}/meals/${meal.id}/edit`}>
                                     <IconButton aria-label="Edit">

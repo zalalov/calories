@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 import Meal from '../models/meal.model';
 import dateformat from 'dateformat';
 import moment from 'moment';
-import Bookshelf from 'bookshelf';
+import {User} from "../models/user.model";
 
 /**
  * Find all user's meals
@@ -66,13 +66,24 @@ export function findByUser(req, res) {
         })
         .where(qb => qb.whereRaw(queryConditions(userId, date_from, date_to, time_from, time_to)))
         .fetchAll()
-        .then(meal => {
-            res.json({
-                    error: false,
-                    data: meal.toJSON()
+        .then(meals => {
+            let data = meals.toJSON();
+
+            User.forge({id: userId})
+                .fetch({require: true})
+                .then(user => {
+                    data = data.map(meal => {
+                        meal.overload = user.get('calories_goal') < meal.day_calories;
+
+                        return meal;
+                    });
+
+                    res.json({
+                        error: false,
+                        data: data
+                    })
                 })
-            }
-        )
+        })
         .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 error: err
             })
@@ -117,10 +128,10 @@ export function findById(req, res) {
  */
 export function store(req, res) {
     const user_id = req.userId;
-    const {text, calories} = req.body;
+    const {text, calories, eaten_at} = req.body;
 
     Meal.forge({
-        user_id, text, calories
+        user_id, text, calories, eaten_at
     }, {hasTimestamps: true}).save()
         .then(meal => res.json({
                 success: true,
@@ -146,7 +157,8 @@ export function update(req, res) {
         .then(meal => meal.save({
                 user_id: req.body.user_id || meal.get('user_id'),
                 text: req.body.text || meal.get('text'),
-                calories: req.body.calories || meal.get('calories')
+                calories: req.body.calories || meal.get('calories'),
+                eaten_at: req.body.eaten_at || meal.get('eaten_at')
             })
                 .then(() => res.json({
                         error: false,
