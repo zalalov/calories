@@ -8,7 +8,7 @@ exports.up = function(knex) {
     console.log('generating meals table');
     return knex.schema.createTable('meals', table => {
         table.increments('id').primary().unsigned();
-        table.bigInteger('user_id').unsigned().index().references('id').inTable('users').notNullable();
+        table.bigInteger('user_id').unsigned().index().references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE').notNullable();
         table.string('text').notNullable();
         table.integer('calories').notNullable();
         table.timestamp('created_at');
