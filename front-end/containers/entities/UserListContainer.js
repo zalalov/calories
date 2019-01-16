@@ -24,9 +24,11 @@ class UserContainer extends Component {
     }
 
     render() {
+        const {auth, users} = this.props;
+
         return (
             <div>
-                <UserList users={this.props.users} onDelete={this.onDelete}/>
+                <UserList auth={auth} users={users} onDelete={this.onDelete}/>
                 <FloatingAddButton link="/users/new"/>
             </div>
         )
@@ -37,7 +39,8 @@ class UserContainer extends Component {
  * Map the state to props.
  */
 const mapStateToProps = state => ({
-    users: state.entities.users.data
+    users: state.entities.users.data,
+    auth: state.auth
 });
 
 /**

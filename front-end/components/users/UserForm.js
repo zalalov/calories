@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Field, reduxForm, change} from 'redux-form'
 import {withStyles} from '@material-ui/core/styles';
-import {Card, CardContent, CardHeader} from '@material-ui/core';
+import {Card, CardContent, CardHeader, MenuItem} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { Select } from 'redux-form-material-ui';
+
 // Import custom components
 import renderText from '../common/form/renderText';
+import {ROLE_ADMIN, ROLE_MANAGER, ROLE_REGULAR, ROLE_MAPPING} from "../../constants/roles";
 
 const styles = theme => ({
     root: {
@@ -37,6 +40,7 @@ class UserForm extends Component {
             this.props.dispatch(change('UserForm', 'last_name', user.last_name));
             this.props.dispatch(change('UserForm', 'email', user.email));
             this.props.dispatch(change('UserForm', 'calories_goal', user.calories_goal));
+            this.props.dispatch(change('UserForm', 'role', user.role));
         }
     }
 
@@ -81,6 +85,18 @@ class UserForm extends Component {
                             />
                             <br/>
                             <Field
+                                name="role"
+                                component={Select}
+                                label="Role"
+                                placeholder="Select a plan"
+                            >
+
+                                {[ROLE_ADMIN, ROLE_MANAGER, ROLE_REGULAR].map(option => (
+                                    <MenuItem key={option} value={option}>{ROLE_MAPPING[option]}</MenuItem>
+                                ))}
+                            </Field>
+                            <br/>
+                            <Field
                                 type="password"
                                 name="password"
                                 label="Password (leave empty to stay the same)"
@@ -117,6 +133,7 @@ const validateSignUp = values => {
         'last_name',
         'email',
         'calories_goal',
+        'role'
     ];
     requiredFields.forEach(field => {
         if (!values[field]) {

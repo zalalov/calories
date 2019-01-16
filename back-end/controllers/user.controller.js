@@ -143,22 +143,29 @@ export function updateSettings(req, res) {
  * @returns {*}
  */
 export function destroy(req, res) {
-    User.forge({id: req.params.id})
-        .fetch({require: true})
-        .then(user => user.destroy()
-            .then(() => res.json({
-                    error: false,
-                    data: {message: 'User deleted successfully.'}
-                })
+    if (req.currentUser.get('id') !== parseInt(req.params.id)) {
+        User.forge({id: req.params.id})
+            .fetch({require: true})
+            .then(user => user.destroy()
+                .then(() => res.json({
+                        error: false,
+                        data: {message: 'User deleted successfully.'}
+                    })
+                )
+                .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                        error: true,
+                        data: {message: err.message}
+                    })
+                )
             )
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                    error: true,
-                    data: {message: err.message}
+                    error: err
                 })
-            )
-        )
-        .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                error: err
-            })
-        );
+            );
+    } else {
+        res.status(HttpStatus.FORBIDDEN).json({
+            error: true,
+            data: {message: 'User cannot delete himself.'}
+        });
+    }
 }

@@ -20,11 +20,16 @@ class MealListContainer extends Component {
         this.timeToChanged = this.timeToChanged.bind(this);
         this.getMealFilters = this.getMealFilters.bind(this);
 
+        let now = new Date();
+        now.setSeconds(0);
+        now.setMilliseconds(0);
         let midnight = new Date();
         midnight.setHours(0,0,0,0);
 
         let monthAgo = new Date();
         monthAgo.setMonth(monthAgo.getMonth() - 1);
+        monthAgo.setSeconds(0);
+        monthAgo.setMilliseconds(0);
 
         this.state = {
             dateFrom: monthAgo,

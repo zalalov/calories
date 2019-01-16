@@ -19,7 +19,7 @@ const styles = theme => ({
 });
 
 function UserList(props) {
-    const {classes, onDelete} = props;
+    const {classes, onDelete, auth} = props;
     return (
         <div className={classes.root}>
             <List component="nav">
@@ -31,19 +31,21 @@ function UserList(props) {
                             <ListItemSecondaryAction>
                                 <Link to={`/users/${user.id}/edit`}>
                                     <IconButton aria-label="Edit">
-                                        <EditIcon />
+                                        <EditIcon/>
                                     </IconButton>
                                 </Link>
 
                                 <Link to={`/users/${user.id}/meals`}>
                                     <IconButton aria-label="Meals">
-                                        <FastfoodIcon />
+                                        <FastfoodIcon/>
                                     </IconButton>
                                 </Link>
 
-                                <IconButton aria-label="Delete">
-                                    <DeleteIcon onClick={() => onDelete(user.id)}/>
-                                </IconButton>
+                                {auth.id !== user.id &&
+                                    <IconButton aria-label="Delete">
+                                        <DeleteIcon onClick={() => onDelete(user.id)}/>
+                                    </IconButton>
+                                }
                             </ListItemSecondaryAction>
                         </ListItem>
                     )
@@ -55,7 +57,8 @@ function UserList(props) {
 
 UserList.propTypes = {
     classes: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(UserList);
