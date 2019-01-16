@@ -22,7 +22,7 @@ router.route('/:id')
     .put([validate(schema.updateUser), isAuthenticated, isNotRegularUser], (req, res) => {
         userCtrl.update(req, res);
     })
-    .delete(isAuthenticated, isNotRegularUser, (req, res) => {
+    .delete([isAuthenticated, isNotRegularUser], (req, res) => {
         userCtrl.destroy(req, res);
     });
 

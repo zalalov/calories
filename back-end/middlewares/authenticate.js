@@ -66,7 +66,7 @@ exports.isManager = (req, res, next) => {
 exports.isOwner = (req, res, next) => {
     const userId = parseInt(req.params.userId);
 
-    if (![ROLE_ADMIN, ROLE_MANAGER].includes(req.currentUser.get('role')) && req.currentUser.get('id') !== userId) {
+    if (![ROLE_ADMIN].includes(req.currentUser.get('role')) && req.currentUser.get('id') !== userId) {
         res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
     } else {
         next();
