@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import {User, ROLE_ADMIN, ROLE_MANAGER} from '../models/user.model';
+import {User, ROLE_ADMIN, ROLE_MANAGER, ROLE_REGULAR} from '../models/user.model';
 import {getToken, getUser, verifyToken} from '../utils/auth';
 
 exports.isAuthenticated = (req, res, next) => {
@@ -33,6 +33,18 @@ exports.isAdmin = (req, res, next) => {
     }
 
     if (req.currentUser.get('role') === ROLE_ADMIN) {
+        next();
+    } else {
+        res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
+    }
+};
+
+exports.isNotRegularUser = (req, res, next) => {
+    if (!req.currentUser) {
+        next(Error('Unknown user.'));
+    }
+
+    if (req.currentUser.get('role') !== ROLE_REGULAR) {
         next();
     } else {
         res.status(HttpStatus.UNAUTHORIZED).json({error: 'You are not authorized to perform this operation!'});
