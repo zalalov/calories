@@ -31,8 +31,8 @@ const Router = (props) => (
                     <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
-                    <AdminRoute path="/users/:userId/edit" component={UserForm}/>
-                    <AdminRoute path="/users/new" component={UserForm}/>
+                    <AuthenticatedRoute path="/users/:userId/edit" component={UserForm}/>
+                    <AuthenticatedRoute path="/users/new" component={UserForm}/>
                     <AuthenticatedRoute path="/users" component={UserList}/>
 
                     <Redirect from="/meals" to={`/users/${props.auth.id}/meals`} />
