@@ -29,7 +29,7 @@ const Router = (props) => (
                 <Switch>
                     <AuthenticatedRoute path="/settings" component={SettingsForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals/:mealId/edit" component={MealForm}/>
-                    <AdminRoute path="/users/:userId/meals/new" component={MealForm}/>
+                    <AuthenticatedRoute path="/users/:userId/meals/new" component={MealForm}/>
                     <AuthenticatedRoute path="/users/:userId/meals" component={MealList}/>
                     <AdminRoute path="/users/:userId/edit" component={UserForm}/>
                     <AdminRoute path="/users/new" component={UserForm}/>

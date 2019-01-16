@@ -158,8 +158,6 @@ class PersistentDrawerLeft extends React.Component {
                                 </ListItem>
                             </Link>
                         )}
-                    </List>
-                    <List>
                         {[ROLE_ADMIN, ROLE_REGULAR].includes(auth.role) && (
                             <Link to='/settings'>
                                 <ListItem button key='Settings'>
